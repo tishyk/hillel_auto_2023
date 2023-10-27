@@ -13,9 +13,9 @@ rm -rf $VENV_NAME
 echo "Creating a new virtualenv <$VENV_NAME>"
 python -m virtualenv $VENV_NAME
 # Activate for linux
-source "$VENV_NAME/bin/activate"
+#source "$VENV_NAME/bin/activate"
 # Activate for windows
-hillel_venv/Scripts/activate
+source hillel_venv/Scripts/activate
 pip install -r requirements.txt
 pip install -e demo
 #pip install -e ./src

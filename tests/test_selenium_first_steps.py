@@ -1,10 +1,13 @@
+import logging
+
 import allure
-from selenium import webdriver
 import requests
-
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from pages.registration_facade import RegistrationFacade
-from src.logger import Logger
 
+logger = logging.getLogger()
 # chrome_options = webdriver.ChromeOptions()
 # chrome_options.add_argument("--incognito")
 
@@ -39,18 +42,25 @@ class TestRegisteration(TestDase):
     def teardown_method(self):
         self._session.post(url="https://qauto2.forstudy.space/api/auth/signin", json=self.user_to_login)
         self._session.delete(url="https://qauto2.forstudy.space/api/users")
+        super().teardown_method()
 
     @allure.feature("Beautiful tests")
     @allure.issue(url="https://google.com", name="Link for very important bag")
     @allure.link(url="https://google.com", name="Link to TestRail")
-    def test_registration(self, logger):
+    def test_registration(self):
+        logger.info("User register")
         self._registration_facade.registration_user("test", 'testlastname', self.user_email, self.user_password,
                                                     self.user_password)
         assert self._registration_facade.check_is_user_logged_in()
 
-    # def test_delete_user(self): # все что ниже из за того что def teardown_method(self) не работает
-    #     self.driver.get("https://qauto2.forstudy.space/panel/settings")
-    #     delete_users = self.driver.find_element(By.XPATH, "//button[text()='Remove my account']")
-    #     delete_users.click()
-    #     delete_users_confirm = self.driver.find_element(By.XPATH, "//button[text()='Remove']")
-    #     delete_users_confirm.click()  # как проверить что удаление прошло успешно если это конец теста?
+    def test_failed_registration_test(self):
+        self._driver.get("https://qauto2.forstudy.space/panel/settings")
+        try:
+            delete_users = self._driver.find_element(By.XPATH, "//button[text()='Remove my account']")
+        except NoSuchElementException:
+            logger.critical("No element found")
+            # raise RuntimeError("No element found //button[text()='Remove my account']")
+        else:
+            delete_users.click()
+            delete_users_confirm = self._driver.find_element(By.XPATH, "//button[text()='Remove']")
+            delete_users_confirm.click()
