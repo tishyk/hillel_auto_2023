@@ -16,7 +16,7 @@ echo "Removing pytest_cache"
 rm -rf .pytest_cache
 
 echo "Creating a new virtualenv <$VENV_NAME>"
-type -P PYTHON_ALLIAS >/dev/null 2>&1
+type -P $PYTHON_ALIAS >/dev/null 2>&1
 rc=$?
 
 if [[ $rc == 1 ]]; then
