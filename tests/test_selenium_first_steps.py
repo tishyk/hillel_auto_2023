@@ -9,7 +9,7 @@ from selenium.common.exceptions import NoSuchElementException
 @allure.feature("Beautiful tests")
 @allure.issue(url="https://google.com", name="Link for very important bag")
 @allure.link(url="https://google.com", name="Link to TestRail")
-def test_registration(logger, driver, registration_facade):
+def test_registration(logger, driver, registration_facade, session):
     logger.info("User register")
     registration_facade.registration_user("test",
                                           'testlastname',
