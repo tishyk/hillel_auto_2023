@@ -3,6 +3,7 @@
 
 EGG_INFO_DIR="*.egg-info"
 VENV_NAME="hillel_venv"
+PYTHON_ALIAS="python3"
 
 echo "Removing existing log temporary files"
 rm -rf .*.log
@@ -15,12 +16,21 @@ echo "Removing pytest_cache"
 rm -rf .pytest_cache
 
 echo "Creating a new virtualenv <$VENV_NAME>"
-pip install virtualenv
-python -m virtualenv $VENV_NAME
+type -P PYTHON_ALLIAS >/dev/null 2>&1
+rc=$?
+
+if [[ $rc == 1 ]]; then
+  PYTHON_ALIAS="python"
+fi
+echo "virtualenv command: $PYTHON_ALIAS -m virtualenv $VENV_NAME"
+$PYTHON_ALIAS -m pip install virtualenv
+$PYTHON_ALIAS -m virtualenv $VENV_NAME
 
 echo "Virtual environment initialization"
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        set +u
         source "$VENV_NAME/bin/activate"
+        set -u
 elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
         source "$VENV_NAME/bin/activate"
@@ -41,7 +51,3 @@ echo "Installing environment dependencies ..."
 pip install -r requirements.txt
 pip install -e .
 echo "All done"
-
-
-
-
