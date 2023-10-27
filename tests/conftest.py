@@ -1,11 +1,10 @@
 import logging
 
 import pytest
-import allure
 import requests
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
+
 from pages.registration_facade import RegistrationFacade
 
 
@@ -27,9 +26,10 @@ def logger():
 
 @pytest.fixture
 def driver():
-    driver = webdriver.Chrome()
+    options = Options()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(3)
-    driver.get("https://guest:welcome2qauto@qauto2.forstudy.space/")
     yield driver
     driver.close()
 

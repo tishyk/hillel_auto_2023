@@ -6,7 +6,13 @@ from pages.base_facade import BaseFacade
 
 class RegistrationFacade(BaseFacade):
     def __init__(self, driver):
+        self.driver = driver
         super().__init__(driver)
+        self.open_page()
+
+    def open_page(self):
+        self.driver.get("https://guest:welcome2qauto@qauto2.forstudy.space/")
+
     @allure.step("Register user")
     def registration_user(self, name, last_name, email, password, repeat_password):
         self._main_page.sing_up_button().click()
@@ -15,7 +21,7 @@ class RegistrationFacade(BaseFacade):
         self._registration_form_page.email_field.send_keys(email)
         self._registration_form_page.password_field().send_keys(password)
         self._registration_form_page.reenter_password_field().send_keys(repeat_password)
-        allure.attach(self._driver.get_screenshot_as_png(), name="screen", attachment_type=AttachmentType.PNG)
+        allure.attach(self.driver.get_screenshot_as_png(), name="screen", attachment_type=AttachmentType.PNG)
         self._registration_form_page.register_button().click()
 
     def check_is_user_logged_in(self):

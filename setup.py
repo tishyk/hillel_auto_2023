@@ -3,18 +3,19 @@ from setuptools import find_packages, setup
 
 
 def main():
-
     setup(
-        name='app_pages',
+        name='hillel_test_tools',
         version='0.0.1',
-        description='Tests Repository applicaton pages',
+        description='Repository test tools',
         author='Hillel team',
         author_email='contact@hillel.com',
         packages=find_packages(),
-        package_dir={'pages': 'pages', 'src':'src'},
+        package_dir={'pages': 'pages',
+                     'data': 'data',
+                     'src': 'src'},
         zip_safe=False,
         include_package_data=True,
-        )
+    )
 
 
 if __name__ == '__main__':
