@@ -10,4 +10,4 @@
  - Create registration_user fixture in the conftest.py file. Choose only one user with the correct password to pass a test (name=John)
  - We do add parametrization to the test!
  - Update test function with registration_user object
- - Change registration_facade class. It should work with code `code` registration_facade.user_registration(registration_user) ``
+ - Change registration_facade class. It should work with code `registration_facade.user_registration(registration_user) `
