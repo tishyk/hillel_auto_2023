@@ -1,5 +1,5 @@
 # Session 27 homework
-## Code from this repo required some changes to pass all tests from the tests directory
+## Code from this repo required some changes to pass all the tests from the tests directory
 
 ### **Required action**
  - Check \./data/users.py file for a registration user creation
