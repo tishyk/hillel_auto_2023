@@ -30,5 +30,3 @@ def test_registration(logger, registration_facade, session, registration_user):
     registration_facade.user_registration(registration_user)
     assert registration_facade.check_is_user_logged_in()
 
-
-
