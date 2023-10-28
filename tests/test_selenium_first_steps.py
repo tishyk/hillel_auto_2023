@@ -2,12 +2,13 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-
 @allure.feature("Beautiful tests")
 @allure.issue(url="https://google.com", name="Link for very important bag")
 @allure.link(url="https://google.com", name="Link to TestRail")
 def test_registration(logger, registration_facade, session):
-    logger.info("User register")
+    """ This test should be fixed to use registration_user instead of john_user fixture"""
+    logger.info("User register test")
+    # Replace  registration_facade.registration_user to registration_facade.user_registration(registration_user)
     registration_facade.registration_user("test",
                                           'testlastname',
                                           "sytischenko@gmail.com",

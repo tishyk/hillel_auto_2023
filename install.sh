@@ -27,6 +27,7 @@ $PYTHON_ALIAS -m pip install virtualenv
 $PYTHON_ALIAS -m virtualenv $VENV_NAME
 
 echo "Virtual environment initialization"
+
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         set +u
         source "$VENV_NAME/bin/activate"
@@ -48,6 +49,7 @@ else
         exit 1
 fi
 echo "Installing environment dependencies ..."
+
 pip install -r requirements.txt
 pip install -e .
 echo "All done"
