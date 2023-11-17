@@ -29,7 +29,7 @@ def logger():
 @pytest.fixture
 def driver():
     options = Options()
-    # options.add_argument("--headless") # Ubuntu server required option
+    options.add_argument("--headless") # Ubuntu server required option
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(3)
     yield driver

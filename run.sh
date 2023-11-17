@@ -1,6 +1,8 @@
 #source "$VENV_NAME/bin/activate"
 # Activate for windows
-hillel_venv/Scripts/activate
+# source hillel_venv/Scripts/activate
+. hillel_venv/bin/activate
+
 python -m pytest -s "$@"
 
 # run from terminal
