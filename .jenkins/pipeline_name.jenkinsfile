@@ -2,7 +2,6 @@ pipeline {
     agent 'any'
     stages {
         stage("First Stage") {
-            agent 'Linux1'
             steps {
                 println("Show system installed python version")
                 sh 'python3 -V'
