@@ -1,21 +1,16 @@
 pipeline {
     agent { docker  { 
-    	image 'framework_image:2022-12-08'
-	args '-e USER="tishyk"'} }
+    	image 'myimage:2023'
+	args '-e USER="hillel"'} }
     stages {
         stage('Framework Setup') {
             steps {
                 sh "chmod +x install.sh && sudo ./install.sh"
             }
         }
-        stage('Site 1 Validation') {
+        stage('Selenium Validation') {
             steps {
-                sh '. playwright_venv/bin/activate && pytest test/test_site1'
-            }
-        }
-		stage('Site 2 Validation') {
-            steps {
-                sh '. playwright_venv/bin/activate && pytest test/test_site2'
+                sh '. hillel_venv/bin/activate && pytest -s test/'
             }
         }
         stage('Post actions') {
