@@ -1,7 +1,8 @@
 pipeline {
     agent 'any'
     stages {
-        stage("First Stages") {
+        stage("First Stage") {
+            agent 'Linux1'
             steps {
                 println("Show system installed python version")
                 sh 'python3 -V'
@@ -10,5 +11,18 @@ pipeline {
             }
 
         }
+        }
+        stage('Test') {
+            steps {
+                println("Show system installed python version for a tests")
+                sh 'python3 --version'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                println("Show system installed python version for a deploy")
+                sh 'python3 --version'
+            }
+        } 
     }
 }
