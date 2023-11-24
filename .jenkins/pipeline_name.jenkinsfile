@@ -1,0 +1,14 @@
+pipeline {
+    agent 'any'
+    stages {
+        stage("First Stages") {
+            steps {
+                println("Show system installed python version")
+                sh 'python -V'
+                sh 'git clone https://github.com/tishyk/auto_project.git'
+                sh 'ls -la auto_project'
+            }
+
+        }
+    }
+}
