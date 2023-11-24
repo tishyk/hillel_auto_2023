@@ -1,7 +1,7 @@
 pipeline {
     agent { docker  { 
-    	image 'myimage:2023'
-	args '-e USER="jenkins"'} }
+    	image 'ubuntu:22.04'
+	args '-e USER="hillel"'} }
     stages {
         stage('Framework Setup') {
             steps {
