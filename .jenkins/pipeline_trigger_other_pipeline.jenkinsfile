@@ -14,7 +14,7 @@ pipeline {
             steps { script {
                 jobParameters.add([$class: "StringParameterValue", name: "test_target", value: "site1"])
                 
-                def job_build = build job: "pipeline_with_parameters", parameters: jobParameters, propagate: false, wait: true
+                def job_build = build job: "First Pipeline", parameters: jobParameters, propagate: false, wait: true
                 if ( job_build.getResult() == "FAILURE") {
                   currentBuild.result = "FAILURE"
                   }
@@ -24,7 +24,7 @@ pipeline {
             steps { script {
                 jobParameters.add([$class: "StringParameterValue", name: "test_target", value: "site1"])
 
-                def job_build = build job: "pipeline_with_parameters", parameters: jobParameters, propagate: false, wait: true
+                def job_build = build job: "With Parameters", parameters: jobParameters, propagate: false, wait: true
                 if ( job_build.getResult() == "FAILURE") {
                   currentBuild.result = "FAILURE"
                   }
