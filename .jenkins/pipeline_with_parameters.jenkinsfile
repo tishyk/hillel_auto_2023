@@ -13,7 +13,7 @@ pipeline {
                 println("Show branch: ${params.branch}")
                 sh 'python3 --version'
                 script {
-                    if ( "${params.test_target}" ==  "site1") {
+                    if ( "${params.test_target}" ==  "site1" && params.run_tests ) {
                         println("Hello from ${STAGE_NAME} and param ${params.test_target}")
                     }
                     else {
