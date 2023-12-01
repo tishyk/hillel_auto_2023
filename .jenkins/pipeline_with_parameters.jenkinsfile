@@ -2,11 +2,15 @@ pipeline {
     agent 'any'
     parameters {
         string(name: "branch", defaultValue: "main", description: "which branch to use")
-        booleanParam(name: "run_tests", description: "Run test stage from dev_branch repo", defaultValue: false)
-        choice(name: "test_target", choices:["all", 1, "site1", "site2", "locals"],  description: "Run test stage for test targets [all, site1, site2, locals]")
+        booleanParam(name: "tests_only", description: "Run test stage from dev_branch repo", defaultValue: false)
+        choice(name: "test_target", choices:["all", "site1", "site2"],  description: "Run test stage for test targets [all, site1, site2, locals]")
         }
     stages {
         stage('Build Stage') {
+            when {
+                beforeAgent true
+                expression { !params.tests_only }
+                }
             steps {
                 // sh 'echo ${params.dev_branch}'
                 sh "echo ${params.branch}"
@@ -23,10 +27,21 @@ pipeline {
                 println("Run stage with parameter: ${params.branch}")
             }
         }
-        stage('Test Stage') {
+        stage('Test Site1') {
             when {
                 beforeAgent true
-                expression { params.run_tests == true }
+                expression { (params.tests_only && params.test_target ==  "site1") or params.test_target ==  "all"}
+                }
+            steps {
+                println("Tests target ${params.test_target}")
+                sh 'python3 --version'
+                sh "pwd && ls -la"
+            }
+        }   
+        stage('Test Site2') {
+            when {
+                beforeAgent true
+                expression { (params.tests_only && params.test_target ==  "site2") or params.test_target ==  "all"}
                 }
             steps {
                 println("Tests target ${params.test_target}")
@@ -34,16 +49,5 @@ pipeline {
                 sh "pwd && ls -la"
             }
         }  
-        stage('Test Site1') {
-            when {
-                beforeAgent true
-                expression { params.test_target ==  "site1" && params.run_tests}
-                }
-            steps {
-                println("Tests target ${params.test_target}")
-                sh 'python3 --version'
-                sh "pwd && ls -la"
-            }
-        }    
     }
 }
