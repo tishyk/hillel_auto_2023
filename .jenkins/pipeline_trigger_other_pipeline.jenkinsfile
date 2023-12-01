@@ -3,7 +3,7 @@ jobParameters.add([$class: "StringParameterValue", name: "dev_branch", value: "m
 jobParameters.add([$class: "BooleanParameterValue", name: "run_tests", value: true])
 
 pipeline {
-    agent {label "master"}
+    agent {label "any"}
     //parameters {
         //string(name: "dev_branch", defaultValue: "main", description: "which branch to use")
         //booleanParam(name: "run_tests", description: "Run test stage from dev_branch repo", defaultValue: false)
