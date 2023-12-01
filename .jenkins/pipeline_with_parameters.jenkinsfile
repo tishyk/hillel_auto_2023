@@ -12,12 +12,14 @@ pipeline {
                 sh "echo ${params.branch}"
                 println("Show branch: ${params.branch}")
                 sh 'python3 --version'
-                if ( "${params.test_target}" ==  "site1") {
-                    println("Hello from ${STAGE_NAME} and param ${params.test_target}")
-                }
-                else {
-                    println("Skipped for site1")
-                }
+                script {
+                    if ( "${params.test_target}" ==  "site1") {
+                        println("Hello from ${STAGE_NAME} and param ${params.test_target}")
+                    }
+                    else {
+                        println("Skipped for site1")
+                    }
+                    }
                 println("Run stage with parameter: ${params.branch}")
             }
         }
@@ -31,6 +33,17 @@ pipeline {
                 sh 'python3 --version'
                 sh "pwd && ls -la"
             }
-        }      
+        }  
+        stage('Test Site1') {
+            when {
+                beforeAgent true
+                expression { params.test_target ==  "site1"}
+                }
+            steps {
+                println("Tests target ${params.test_target}")
+                sh 'python3 --version'
+                sh "pwd && ls -la"
+            }
+        }    
     }
 }
