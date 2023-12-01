@@ -9,6 +9,7 @@ pipeline {
         booleanParam(name: "run_tests", description: "Run test stage from dev_branch repo", defaultValue: false)
         choice(name: "test_target", choices:["all", "site1", "site2", "locals"],  description: "Run test stage for test targets [all, site1, site2, locals]")
         }
+        
     stages {
         stage('Build Product') {
             steps { script {
