@@ -9,10 +9,16 @@ pipeline {
         stage('Build Stage') {
             steps {
                 // sh 'echo ${params.dev_branch}'
-                sh "echo ${params.dev_branch}"
+                sh "echo ${params.branch}"
                 println("Show branch: ${params.branch}")
                 sh 'python3 --version'
-                println("Run stage with parameter: ${params.dev_branch}")
+                if ( params.test_target ==  "site1" ) {
+                    println("Hello from ${STAGE_NAME} and param ${params.test_target}")
+                }
+                else {
+                    println("Skipped for site1")
+                }
+                println("Run stage with parameter: ${params.branch}")
             }
         }
         stage('Test Stage') {
