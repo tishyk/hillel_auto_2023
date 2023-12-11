@@ -1,0 +1,1 @@
+REGISTRATION_PAGE = "https://guest:welcome2qauto@qauto2.forstudy.space/"

@@ -3,7 +3,7 @@
 
 EGG_INFO_DIR="*.egg-info"
 VENV_NAME="hillel_venv"
-PYTHON_ALIAS="python3"
+PYTHON_ALIAS="python"
 
 echo "Removing existing log temporary files"
 rm -rf .*.log

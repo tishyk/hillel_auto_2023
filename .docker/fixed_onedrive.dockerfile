@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   python-gi-dev \
   python3-tk \
   sudo \
-  vim \
+  nano \
   virtualenv \
   unzip \
   wget \

@@ -1,0 +1,70 @@
+# This docker-compose file intent to create a multi-container application
+# that runs a Jenkins container connected via TLS to a Docker-in-Docker (dind) container as Docker daemon.
+#
+# Advice about this approach can be found at: 
+# http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/
+#
+# As well discussion about another alternatives on this setup can be found at:
+# https://forums.docker.com/t/using-docker-in-a-dockerized-jenkins-container/322/11
+#
+# Quick reference about Docker-in-Docker can be fount at:
+# https://hub.docker.com/_/docker
+# 
+# Main source: https://www.jenkins.io/doc/tutorials/create-a-pipeline-in-blue-ocean/
+
+version: '3.1'
+
+networks:
+  docker:
+
+volumes:
+  jenkins-data:
+  jenkins-docker-certs:
+
+services:
+
+  jenkins:
+    image: jenkins/jenkins
+    restart: always
+    networks:
+      - docker
+    ports:
+      - 8080:8080
+      - 50000:50000
+    tty: true
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+      - $HOME:/home
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
+
+  dind:
+    image: docker:dind
+    privileged: true
+    restart: always
+    networks:
+      docker:
+        aliases: 
+          - docker
+    ports:
+      - 2376:2376
+    tty: true
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client
+      - $HOME:/home
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+
+  agent:
+    image: jenkins/ssh-agent:jdk11
+    privileged: true
+    user: root
+    container_name: agent
+    expose:
+      - 22
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDXhkZBIqbAAYun7Z08B8Bh4wglfwwDjT3RlzlvYtbHTAM8Ll38eB4fl7+r8DJDtssuNIZrW94FsnzLJlirxA1WDurJ86ddU4UT9tOPZToP4cbbV+J+OvnEbW5IxYe3GeGrkzRphtv0JWiZeueTpX6TOvxR//s5Q1jWrzGYCm7W1/zJEFwcXs/IKLDjHW4UVqqjU1SBxokSWAkiUYeOqX1trODU+DzaulrpY7doKuJIv6MFwSBOrHDzKhkkZUlbobGwS2MK5Nz9m/qzdzRPshVF1q7ebBHs1QUPeUb2MbqWd0209pHYMmavEmAEDvBlus3bSMG50OLKxxLi46HuSTkUImjgQNeiOVlb9VhMKvzh3mUzeqZ+iA9XrQQ9F/vPdm3rJi9UgSyqWfrwIqNvNMNxVnVDqzjwlyVS01Nzl0fTbcwku3so38gKMvukC56Wfs0kmOrPtwqLh9I/dv+O7e56i6yuGyy8QZ1a1xVI99g10oNhGXQ0CYDcS5q3ctcuxBk= hillel@hillel-host

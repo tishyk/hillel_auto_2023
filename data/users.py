@@ -43,7 +43,7 @@ class UserConfigReader:
         filtered_object = {}
         for key in user_model:
             filtered_object[key] = json_object.get(key)
-        logger.critical(f"User model found: {filtered_object}")
+        logger.debug(f"User model found: {filtered_object}")
         return filtered_object
 
 
@@ -60,6 +60,11 @@ class UserCreator:
         model = REGISTRATION_USER_MODEL
         config_json = UserConfigReader.read_json_config(path, model)
         return [cls(**user_config) for user_config in config_json]
+    
+    def session_data(self, remember=False):
+        return { "email": self.email,
+                "password": self.password,
+                "remember": remember }
 
 
 if __name__ == "__main__":
